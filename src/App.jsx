@@ -45,6 +45,9 @@ function App() {
         <>
           <div className="user-info">
             <p>Welcome, <strong>{candidate.firstName} {candidate.lastName}</strong></p>
+            <button onClick={() => setCandidate(null)} className="change-user-button">
+              Change User
+            </button>
           </div>
           <JobList jobs={jobs} candidate={candidate} />
         </>

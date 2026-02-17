@@ -77,17 +77,18 @@ body {
 }
 
 .job-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-top: 2rem;
 }
 
 /* Job Item */
 .job-item {
-  background: white;
+  background: #e1f5fe; /* Light Blue */
   padding: 1.5rem;
   border-radius: 8px;
+  border: 1px solid #b3e5fc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
@@ -118,3 +119,35 @@ body {
   margin-bottom: 2rem;
   display: inline-block;
 }
+
+.input-label {
+  display: block;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.job-description {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+.change-user-button {
+  background: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  margin-left: 1rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.change-user-button:hover {
+  background: #e3f2fd;
+}
+

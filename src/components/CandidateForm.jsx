@@ -32,7 +32,7 @@ const CandidateForm = ({ onCandidateFound }) => {
       <form onSubmit={handleSubmit} className="candidate-form">
         <input
           type="email"
-          placeholder="your.email@example.com"
+          placeholder=""
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
