@@ -5,6 +5,7 @@ const ApplicationForm = ({ job, candidate }) => {
   const [repoUrl, setRepoUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +20,13 @@ const ApplicationForm = ({ job, candidate }) => {
 
     setLoading(true);
     setStatus(null);
+    setErrorMessage('');
 
     const applicationData = {
       uuid: candidate.uuid,
       jobId: job.id,
       candidateId: candidate.candidateId,
+      applicationId: candidate.applicationId,
       repoUrl: repoUrl,
     };
 
@@ -34,6 +37,8 @@ const ApplicationForm = ({ job, candidate }) => {
     } catch (error) {
       console.error(error);
       setStatus('error');
+      const msg = error.response?.data?.error || error.response?.data?.message || error.message || 'Error submitting application.';
+      setErrorMessage(msg);
     } finally {
       setLoading(false);
     }
@@ -61,7 +66,7 @@ const ApplicationForm = ({ job, candidate }) => {
         </button>
       </form>
       {status === 'success' && <p className="success-message">Application submitted successfully!</p>}
-      {status === 'error' && <p className="error-message">Error submitting application. Please try again.</p>}
+      {status === 'error' && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 };
