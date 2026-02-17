@@ -13,10 +13,6 @@ const CandidateForm = ({ onCandidateFound }) => {
     setError(null);
 
     try {
-        // We pass the email up to the parent to handle the API call
-        // This keeps the component purely presentational/form-focused if we wanted,
-        // but for simplicity, we can also just trigger the fetch here.
-        // However, looking at the App structure, better to pass the email up.
         await onCandidateFound(email);
     } catch (err) {
       console.error(err);

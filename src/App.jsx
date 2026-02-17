@@ -17,13 +17,11 @@ function App() {
       const candidateData = await getCandidateByEmail(email);
       setCandidate(candidateData);
       
-      // Once we have the candidate, fetch jobs
       const jobsList = await getJobs();
       setJobs(jobsList);
     } catch (err) {
       console.error('Candidate fetch error:', err);
       setError('Error fetching data. Please check the email and try again.');
-      // Reset candidate if fetch fails
       setCandidate(null); 
     } finally {
       setLoading(false);

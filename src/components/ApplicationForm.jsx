@@ -4,13 +4,12 @@ import { applyToJob } from '../services/api';
 const ApplicationForm = ({ job, candidate }) => {
   const [repoUrl, setRepoUrl] = useState('');
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(null); // 'success', 'error', or null
+  const [status, setStatus] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!repoUrl) return;
 
-    // Warning for non-fullstack jobs
     if (!job.title.toLowerCase().includes('fullstack')) {
       const isConfirmed = window.confirm(
         "⚠️ Atención: Esta no es la posición del desafío (Fullstack Developer). ¿Estás seguro de que deseas aplicar aquí?"
@@ -31,7 +30,7 @@ const ApplicationForm = ({ job, candidate }) => {
     try {
       await applyToJob(applicationData);
       setStatus('success');
-      setRepoUrl(''); // Clear input on success
+      setRepoUrl('');
     } catch (error) {
       console.error(error);
       setStatus('error');
