@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import CandidateForm from './components/CandidateForm';
+import JobList from './components/JobList';
+import { getCandidateByEmail, getJobs } from './services/api';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [candidate, setCandidate] = useState(null);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleCandidateFound = async (email) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const candidateData = await getCandidateByEmail(email);
+      setCandidate(candidateData);
+      
+      // Once we have the candidate, fetch jobs
+      const jobsList = await getJobs();
+      setJobs(jobsList);
+    } catch (err) {
+      console.error('Candidate fetch error:', err);
+      setError('Error fetching data. Please check the email and try again.');
+      // Reset candidate if fetch fails
+      setCandidate(null); 
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app-container">
+      <header className="header">
+        <h1>Nimble Gravity Challenge</h1>
+      </header>
+
+      {error && <p className="error-message">{error}</p>}
+      {loading && !candidate && <p>Loading data...</p>}
+
+      {!candidate ? (
+        <CandidateForm onCandidateFound={handleCandidateFound} />
+      ) : (
+        <>
+          <div className="user-info">
+            <p>Welcome, <strong>{candidate.firstName} {candidate.lastName}</strong></p>
+          </div>
+          <JobList jobs={jobs} candidate={candidate} />
+        </>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
